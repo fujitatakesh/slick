@@ -65,6 +65,7 @@
                 infinite: true,
                 initialSlide: 0,
                 lazyLoad: 'ondemand',
+                maxWidth: undefined,
                 mobileFirst: false,
                 pauseOnHover: true,
                 pauseOnDotsHover: false,
@@ -1600,19 +1601,38 @@
     Slick.prototype.setDimensions = function() {
 
         var _ = this;
+        var padding;
 
         if (_.options.vertical === false) {
             if (_.options.centerMode === true) {
-                _.$list.css({
-                    padding: ('0px ' + _.options.centerPadding)
-                });
+			if (_.options.maxWidth !== undefined) {
+				padding = (_.$slider.width() - _.options.maxWidth) / 2;
+				if (padding < 0) {
+					padding = 0;
+				}
+				padding += 'px';
+			} else {
+				padding = _.options.centerPadding;
+			}
+			_.$list.css({
+				padding: ('0px ' + padding)
+			});
             }
         } else {
             _.$list.height(_.$slides.first().outerHeight(true) * _.options.slidesToShow);
             if (_.options.centerMode === true) {
-                _.$list.css({
-                    padding: (_.options.centerPadding + ' 0px')
-                });
+			if (_.options.maxHeight !== undefined) {
+				padding = (_.$slider.height() - _.options.maxHeight) / 2;
+				if (padding < 0) {
+					padding = 0;
+				}
+				padding += 'px';
+			} else {
+				padding = _.options.centerPadding;
+			}
+			_.$list.css({
+				padding: (padding + ' 0px')
+			});
             }
         }
 
